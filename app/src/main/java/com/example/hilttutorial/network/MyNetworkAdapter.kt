@@ -9,3 +9,9 @@ class MyNetworkAdapter @Inject constructor(): NetworkAdapter {
         Log.d(TAG, "MyNetworkAdapter: $message")
     }
 }
+
+class OtherNetworkAdapter @Inject constructor(): NetworkAdapter {
+    override fun log(message: String) {
+        Log.d(TAG, "OtherNetworkAdapter: $message")
+    }
+}

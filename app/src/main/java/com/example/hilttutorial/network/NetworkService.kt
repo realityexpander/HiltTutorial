@@ -8,7 +8,7 @@ class NetworkService private constructor(builder: Builder) {
     val protocol: String?
     val host: String?
     val path: String?
-    val interceptor: Interceptor?
+    private val interceptor: Interceptor?
 
     init {
         protocol = builder.protocol
@@ -17,9 +17,15 @@ class NetworkService private constructor(builder: Builder) {
         interceptor = builder.interceptor
     }
 
-    fun perfomNetworkCall() {
-        interceptor?.log("Call Performed")
-        Log.d(TAG, "perfomNetworkCall: $this")
+    fun performNetworkCall(query: String) {
+        interceptor?.log("Interceptor before: args: $query")
+        val newQuery = interceptor?.modifyArgs(query) ?: query
+        Log.d(TAG, "performNetworkCall: " +
+                "${this.protocol}://" +
+                "${this.host}/" +
+                "${this.path}?" +
+                newQuery
+        )
     }
 
     class Builder {

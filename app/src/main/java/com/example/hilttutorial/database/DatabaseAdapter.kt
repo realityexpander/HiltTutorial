@@ -1,12 +1,17 @@
 package com.example.hilttutorial.database
 
-import android.util.Log
+import android.content.Context
+import android.util.Logg
 import com.example.hilttutorial.TAG
+import dagger.hilt.android.qualifiers.ActivityContext
 import javax.inject.Inject
 
-class DatabaseAdapter @Inject constructor(var databaseService: DatabaseService){
+
+// Constructor Injector
+class DatabaseAdapter @Inject constructor(@ActivityContext val context: Context,
+                                          val databaseService: DatabaseService){
     fun log(message: String) {
-        Log.d(TAG, "DatabaseAdapter log: $message")
+        Logg.d(TAG, "DatabaseAdapter log: $message")
         databaseService.log(message)
     }
 }

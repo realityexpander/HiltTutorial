@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HiltTutorial</string>
+    <string name="http_protocol">https</string>
+    <string name="database_type">Room</string>
 </resources>
