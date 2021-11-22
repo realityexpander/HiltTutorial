@@ -10,7 +10,6 @@ import com.example.hilttutorial.database.DatabaseService
 import com.example.hilttutorial.databinding.ActivityMainBinding
 import com.example.hilttutorial.hilt.NetworkService1
 import com.example.hilttutorial.hilt.NetworkService2
-import com.example.hilttutorial.network.MyNetworkAdapter
 import com.example.hilttutorial.network.NetworkAdapter
 import com.example.hilttutorial.network.NetworkService
 import com.example.hilttutorial.stats.StatsViewModel
@@ -38,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     @NetworkService1
     lateinit var networkService: NetworkService  // Module+Provides Injection
 
-    private val statsViewModel: StatsViewModel by viewModels()
+    private val statsViewModel: StatsViewModel by viewModels()  // Injected here automatically
 
     private lateinit var bind: ActivityMainBinding
 
@@ -54,9 +53,24 @@ class MainActivity : AppCompatActivity() {
 
         networkService.performNetworkCall("user=chrisa-Service-NetworkService")
 
+        // Use the viewModel
         statsViewModel.statsLiveData.observe(this) { stats ->
-            bind.tvText.text = "${stats}s"
+            ("${stats}s : " +
+                    statsViewModel.stateInt.value).also { bind.tvText.text = it }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        statsViewModel.stopStatsCollection()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        statsViewModel.loadInitialState()
+        statsViewModel.i = statsViewModel.stateInt.value!!
+        println("$TAG onResume stateInt=${statsViewModel.stateInt.value!!}")
         statsViewModel.startStatsCollection()
     }
 
