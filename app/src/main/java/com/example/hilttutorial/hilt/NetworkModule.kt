@@ -83,7 +83,6 @@ class NetworkService {  // must not be abstract to supply classes
     }
 
     @Singleton
-
     @Provides
     @NetworkService2 // using our custom Qualifier
     fun provideNetworkService2(@Named("ResponseInterceptor")
